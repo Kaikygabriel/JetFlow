@@ -1,0 +1,6 @@
+@JetFlow.Products.Api_HostAddress = http://localhost:5127
+
+GET {{JetFlow.Products.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
