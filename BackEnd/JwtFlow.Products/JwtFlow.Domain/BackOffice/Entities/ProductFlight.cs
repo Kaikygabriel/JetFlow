@@ -5,14 +5,12 @@ namespace JwtFlow.Domain.BackOffice.Entities;
 
 public class ProductFlight : Entity
 {
-    protected ProductFlight(decimal price, string name)
+    protected ProductFlight()
     {
-        Price = price;
-        Name = name;
     }
     public ProductFlight(FlightDate flightDate, FlightCity flightCity, decimal price, string name)
     {
-        IsValidPrice(price);
+        IsValid(price,name);
         FlightDate = flightDate;
         FlightCity = flightCity;
         Price = price;
@@ -32,9 +30,9 @@ public class ProductFlight : Entity
     public IEnumerable<string> GetUsersId()
         => UsersId; 
     
-    private void IsValidPrice(decimal price)
+    private void IsValid(decimal price,string name)
     {
-        if (price < 0)
+        if (price < 0 || string.IsNullOrEmpty(name))
             throw new Exception();
     }
 }

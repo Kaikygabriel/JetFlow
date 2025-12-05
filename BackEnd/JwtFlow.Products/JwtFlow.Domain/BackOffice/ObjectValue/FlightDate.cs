@@ -2,9 +2,9 @@ using JwtFlow.Domain.BackOffice.Exceptions;
 
 namespace JwtFlow.Domain.BackOffice.ObjectValue;
 
-public struct FlightDate
+public class FlightDate
 {
-    public FlightDate()
+    protected FlightDate()
     {
     }
     public FlightDate(DateTime dateStart, DateTime dateOut)

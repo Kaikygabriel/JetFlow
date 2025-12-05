@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Domain\BackOffice\Entities\" />
+    <Folder Include="Application\UseCases\Flight\Query\" />
   </ItemGroup>
 
 </Project>

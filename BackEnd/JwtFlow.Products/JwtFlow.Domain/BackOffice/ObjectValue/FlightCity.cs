@@ -1,8 +1,8 @@
 namespace JwtFlow.Domain.BackOffice.ObjectValue;
 
-public struct FlightCity
+public class FlightCity
 {
-    public FlightCity()
+    protected FlightCity()
     {
         
     }
