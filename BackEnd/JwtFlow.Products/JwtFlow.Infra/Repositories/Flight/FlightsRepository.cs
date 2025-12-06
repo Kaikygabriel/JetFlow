@@ -22,7 +22,7 @@ public class FlightsRepository : IRepositoryProductFlight
 
     public async Task<IEnumerable<ProductFlight>?> GetAllByUserAsync(string userId)
     {
-        return await context.Flights.AsQueryable().AsNoTracking().
+        return await context.Flights.AsNoTrackingWithIdentityResolution().
             Where(x=>x.UsersId.Contains(userId)).ToListAsync();
     }
 

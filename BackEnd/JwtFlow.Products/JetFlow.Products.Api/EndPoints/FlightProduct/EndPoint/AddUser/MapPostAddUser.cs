@@ -1,4 +1,5 @@
-using JwtFlow.Application.UseCases.Flight.Command.AddUser;
+
+using JwtFlow.Application.UseCases.Flight.Command.AddUserInFlight;
 using MediatorX.Core.Abstraction.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
