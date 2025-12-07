@@ -1,28 +1,42 @@
-﻿using System.Security.Claims;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 using JetFlow.Domain.BackOffice.Entities;
 using JetFlow.Domain.BackOffice.Interfaces;
 using JetFlow.Infra.Services.Contracts;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 
 namespace JetFlow.Infra.Services;
 
 public class ServiceToken : IServiceToken
 {
-    private IunitOfWork _unitOfWork;
     private readonly IConfiguration _configuration;
     private readonly IMemoryCache _cache;
 
-    public ServiceToken(IConfiguration configuration, IMemoryCache cache, IunitOfWork unitOfWork)
+    public ServiceToken(IConfiguration configuration, IMemoryCache cache)
     {
         _configuration = configuration;
         _cache = cache;
-        _unitOfWork = unitOfWork;
     }
 
     public string GenerateAccessToken(IEnumerable<Claim> claims)
     {
-        throw new NotImplementedException();
+        var rsa = RSA.Create();
+        rsa.ImportFromPem(_configuration["Jwt:SecretKey"]!);
+        var credentials = new SigningCredentials(
+            new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256);
+        var tokenDescriptor = new SecurityTokenDescriptor()
+        {
+            Subject = new(claims),
+            Expires = DateTime.UtcNow.AddDays(3),
+            SigningCredentials = credentials
+        };
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+        return tokenHandler.WriteToken(token);
     }
 
     public string GenerateAuthenticationCode(string emailUser)

@@ -11,7 +11,7 @@ public class User : Entity
     }
     public User(string name, Email email, string password)
     {
-        if (!IsValidAttributes(name, password))
+        if (!IsValidName(name) || !IsValidPassword(password))
             throw new System.Exception("Attributes invalid");
         Name = name;
         Email = email;
@@ -26,13 +26,27 @@ public class User : Entity
     public void AddRole(string role)
      => Roles.Add(role);
 
-    public bool IsValidAttributes(string name, string password)
+    public void UpdatePassword(string password)
     {
-        if (string.IsNullOrWhiteSpace(name) ||
-            string.IsNullOrWhiteSpace(password) ||
-            name.Length < 2 ||
+        if (!IsValidPassword(password))
+            throw new System.Exception("Password Invalid");
+        Password = password;
+    }
+
+    public bool IsValidPassword(string password)
+    {
+        if (string.IsNullOrWhiteSpace(password) ||
             password.Length < 3)
             return false;
         return true;
     }
+
+    public bool IsValidName(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name) ||
+            name.Length < 2 )
+            return false;
+        return true;
+    }
+
 }
