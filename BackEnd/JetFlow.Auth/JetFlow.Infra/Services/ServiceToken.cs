@@ -25,7 +25,7 @@ public class ServiceToken : IServiceToken
     public string GenerateAccessToken(IEnumerable<Claim> claims)
     {
         var rsa = RSA.Create();
-        rsa.ImportFromPem(_configuration["Jwt:SecretKey"]!);
+        rsa.ImportFromPem(_configuration["Jwt:PrivateKey"]!);
         var credentials = new SigningCredentials(
             new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256);
         var tokenDescriptor = new SecurityTokenDescriptor()

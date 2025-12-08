@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <Folder Include="UseCases\User\Notification\" />
-    <Folder Include="UseCases\User\Query\" />
   </ItemGroup>
 
   <PropertyGroup>

@@ -26,11 +26,6 @@ public class UserMapping : IEntityTypeConfiguration<User>
             .HasColumnType("NVARCHAR")
             .HasMaxLength(140)
             .IsRequired(true);
-
-        builder.OwnsMany(x => x.Roles)
-            .Property(x => x)
-            .HasMaxLength(100)
-            .HasColumnType("NVARCHAR")
-            .IsRequired(true);
+        
     }
 }

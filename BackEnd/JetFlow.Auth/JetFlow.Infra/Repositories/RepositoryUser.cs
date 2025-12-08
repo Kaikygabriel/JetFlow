@@ -1,5 +1,6 @@
 using JetFlow.Domain.BackOffice.Entities;
 using JetFlow.Domain.BackOffice.Interfaces;
+using JetFlow.Domain.BackOffice.ObjectValues;
 using JetFlow.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,8 +18,9 @@ public class RepositoryUser : IRepositoryUser
 
     public async Task<User?> GetUserByEmail(string addressEmail)
     {
+        var email = new Email(addressEmail);
         return await _context.Users.AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Email.Address == addressEmail);
+            .FirstOrDefaultAsync(x => x.Email.Equals(email));
     }
 
     public void Create(User user)
