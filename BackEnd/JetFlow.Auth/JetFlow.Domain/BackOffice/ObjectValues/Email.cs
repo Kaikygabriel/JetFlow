@@ -6,7 +6,7 @@ public struct Email
 {
     public Email(string address)
     {
-        if(IsValidAddress(address))
+        if(!IsValidAddress(address))
             throw new EmailException("Invalid address format");
         Address = address;
     }
@@ -14,7 +14,8 @@ public struct Email
 
     public bool IsValidAddress(string address)
     {
-        if (string.IsNullOrWhiteSpace(address) || address.Length < 3)
+        if (string.IsNullOrWhiteSpace(address) || address.Length < 3||
+            !address.Contains('@'))
             return false;
         return true;
     }
