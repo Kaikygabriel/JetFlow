@@ -4,6 +4,7 @@ using JetFlow.Infra.Services;
 using JetFlow.Infra.Services.Contracts;
 using JetFlow.Infra.UseCases.User.Query.Login;
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace JetFlow.Infra.UseCases.User.Query;
 
@@ -28,6 +29,5 @@ public class HandlerQuery : HandlerBase,
 
     private bool VerifyPassword(string password, Domain.BackOffice.Entities.User user)
         => BCrypt.Net.BCrypt.Verify(password, user.Password);
-
 
 }

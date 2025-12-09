@@ -13,17 +13,22 @@ public class CreateHandler  : HandlerBase,IHandler<CreateCommand,bool>
     {
         try
         {
-            var productExisting = await _unitOfWork.RepositoryProductFlight.
-                    GetByPredicate(x => x.Name == request.Product.Name);
-            if (productExisting is not null)
-                return false;
-            _unitOfWork.RepositoryProductFlight.Create(request.Product);
-            await _unitOfWork.CommitAsync();
-            return true;
+            return await CreateProductFlightOrException(request);
         }
         catch (Exception e)
         {
             return false;
         }
+    }
+
+    private async Task<bool> CreateProductFlightOrException(CreateCommand request)
+    {
+        var productExisting = await _unitOfWork.RepositoryProductFlight.
+            GetByPredicate(x => x.Name == request.Product.Name);
+        if (productExisting is not null)
+            return false;
+        _unitOfWork.RepositoryProductFlight.Create(request.Product);
+        await _unitOfWork.CommitAsync();
+        return true;
     }
 }

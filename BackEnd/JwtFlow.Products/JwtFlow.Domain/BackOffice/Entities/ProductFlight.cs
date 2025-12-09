@@ -1,4 +1,5 @@
 using JwtFlow.Domain.BackOffice.Entities.Contracts;
+using JwtFlow.Domain.BackOffice.Exceptions;
 using JwtFlow.Domain.BackOffice.ObjectValue;
 
 namespace JwtFlow.Domain.BackOffice.Entities;
@@ -33,6 +34,6 @@ public class ProductFlight : Entity
     private void IsValid(decimal price,string name)
     {
         if (price < 0 || string.IsNullOrEmpty(name))
-            throw new Exception();
+            throw new FlightException();
     }
 }

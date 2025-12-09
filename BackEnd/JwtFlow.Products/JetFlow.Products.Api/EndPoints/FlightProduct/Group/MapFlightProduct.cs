@@ -10,10 +10,17 @@ public static class MapFlightProduct
 {
     public static void MapFlight(this WebApplication app)
     {
-        var group = app.MapGroup("Flight");
-        MapGetAll.Map(group);
-        MapPost.Map(group);
-        MapGetByUser.Map(group);
-        MapPostAddUser.Map(group);
+        var group = app.MapGroup("Flight")
+            .WithTags("Flight")
+            .AddMap<MapGetAll>()
+            .AddMap<MapPost>()
+            .AddMap<MapGetByUser>()
+            .AddMap<MapPostAddUser>();
+    }
+
+    public static RouteGroupBuilder AddMap<T>(this RouteGroupBuilder group) where T : IEndPoint
+    {
+        T.Map(group);
+        return group;
     }
 }

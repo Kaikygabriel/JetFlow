@@ -19,11 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Infra\UseCases\Commands\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\JetFlow.Domain\JetFlow.Domain.csproj" />
+    <ProjectReference Include="..\JetFlow.Infra\JetFlow.Infra.csproj" />
   </ItemGroup>
 
 </Project>

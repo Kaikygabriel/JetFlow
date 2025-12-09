@@ -24,7 +24,7 @@ public class HandlerCommand : HandlerBase ,
         try
         {
             var userExisting = await UnitOfWork.RepositoryUser.GetUserByEmail(request.User.Email.Address);
-            if (!(userExisting is null))
+            if (userExisting is not null)
                 return null;
             var newPassword = BCrypt.Net.BCrypt.HashPassword(request.User.Password);
             request.User.UpdatePassword(newPassword);

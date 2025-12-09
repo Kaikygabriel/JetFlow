@@ -1,11 +1,11 @@
 using JwtFlow.Domain.BackOffice.Entities;
+using JwtFlow.Domain.BackOffice.Exceptions;
 using JwtFlow.Domain.BackOffice.ObjectValue;
 
 namespace JwtFlow.Products.Test.Domain.BackOffice.Entities;
 
 public class ProductFlightTest
 {
-
     private const decimal PRICE_VALID = 101.11M;
     private const decimal PRICE_INVALID = -10M;
     
@@ -16,9 +16,9 @@ public class ProductFlightTest
     private readonly FlightCity FlightCity_Valid = new("Rio de janeiro", " São paulo");
     
     [Fact]
-    public void CreateProductFlight_with_NameInvalid_PriceInvalid_Return_Exception()
+    public void CreateProductFlight_with_NameInvalid_PriceInvalid_Return_FlightException()
     {
-        Assert.Throws<Exception>(()
+        Assert.Throws<FlightException>(()
             => new ProductFlight(FlightDate_Valid, FlightCity_Valid, PRICE_INVALID, NAME_INVALID));
     }
     

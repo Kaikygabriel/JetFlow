@@ -13,17 +13,22 @@ public class DeleteHandler : HandlerBase,IHandler<DeleteCommand,bool>
     {
         try
         {
-            var productFlight = await _unitOfWork.RepositoryProductFlight
-                .GetByPredicate(x => x.Id.ToString() == request.IdFlight);
-            if (productFlight is null) 
-                return false;
-            _unitOfWork.RepositoryProductFlight.Delete(productFlight);
-            await _unitOfWork.CommitAsync();
-            return true;
+            return await DeleteProductFlightOrException(request);
         }
         catch (Exception e)
         {
             return false;
         }
+    }
+
+    private async Task<bool> DeleteProductFlightOrException(DeleteCommand request)
+    {
+        var productFlight = await _unitOfWork.RepositoryProductFlight
+            .GetByPredicate(x => x.Id.ToString() == request.IdFlight);
+        if (productFlight is null) 
+            return false;
+        _unitOfWork.RepositoryProductFlight.Delete(productFlight);
+        await _unitOfWork.CommitAsync();
+        return true;
     }
 }
