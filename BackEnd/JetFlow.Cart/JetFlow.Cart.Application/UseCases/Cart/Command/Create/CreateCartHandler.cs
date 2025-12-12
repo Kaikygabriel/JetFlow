@@ -32,8 +32,7 @@ public class CreateCartHandler  : HandlerBase,
         if (cartExisting is not null)
             return false;
         
-        UnitOfWork.RepositoryCart.Create(request.Cart);
-        await UnitOfWork.CommitAsync();
+        await UnitOfWork.RepositoryCart.Create(request.Cart);
         
         return true;
     }

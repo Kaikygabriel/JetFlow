@@ -8,7 +8,7 @@ public interface IRepository<T>
 {
     Task<IEnumerable<T>> GetAllAsync();
     Task<T> GetByPredicate(Expression<Func<T, bool>> predicate);
-    void Create(T entity);
-    void Update(T entity);
-    void Delete(T entity);
+    Task Create(T entity);
+    Task Update(T entity);
+    Task Delete(T entity);
 }

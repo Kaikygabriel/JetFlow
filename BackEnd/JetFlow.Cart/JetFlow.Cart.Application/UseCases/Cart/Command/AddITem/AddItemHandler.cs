@@ -24,12 +24,11 @@ public class AddItemHandler : HandlerBase, IHandler<AddItemCommand,bool>
     private async Task<bool> AddItem(AddItemCommand request)
     {
         var cart = await UnitOfWork.RepositoryCart.GetByPredicate(x => x.UserId == request.UserId);
-        if (cart is null) return false;
+        if (cart is null || cart.UserId != request.Item.UserId) return false;
 
         cart.AddCartInItems(request.Item);
-        UnitOfWork.RepositoryCartItem.Create(request.Item);
-        UnitOfWork.RepositoryCart.Update(cart);
-        await UnitOfWork.CommitAsync();
+        await UnitOfWork.RepositoryCartItem.Create(request.Item);
+        
         return true;
     }
 }

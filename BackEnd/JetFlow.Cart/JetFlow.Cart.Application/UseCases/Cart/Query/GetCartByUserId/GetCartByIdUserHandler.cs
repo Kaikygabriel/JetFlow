@@ -13,8 +13,12 @@ public class GetCartByIdUserHandler : HandlerBase,
     public async Task<Domain.BackOffice.Entities.Cart?> HandleAsync
         (GetCartByUserIdQuery request, CancellationToken cancellationToken = new CancellationToken())
     {
-        var cart = await UnitOfWork.RepositoryCart.GetByPredicate(x => x.UserId == request.UserId);
-
+        var cart = await UnitOfWork.RepositoryCart.GetByUserId(request.UserId);
+        if (cart is null) return null;
+        
+        foreach (var item in await UnitOfWork.RepositoryCartItem.GetAllByUserId(cart.UserId))
+            cart.AddCartInItems(item);
+        
         return cart;
     }
 }

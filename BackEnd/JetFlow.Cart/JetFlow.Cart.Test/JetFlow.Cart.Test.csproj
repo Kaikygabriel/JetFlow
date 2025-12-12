@@ -18,4 +18,8 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\JetFlow.Cart.Api\JetFlow.Cart.Api.csproj" />
+  </ItemGroup>
+
 </Project>
