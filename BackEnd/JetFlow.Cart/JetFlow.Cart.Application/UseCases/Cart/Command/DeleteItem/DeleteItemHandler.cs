@@ -18,9 +18,8 @@ public class DeleteItemHandler : HandlerBase,
     private async Task<bool> DeleteItem(DeleteItemCommand request)
     {
         var item = await UnitOfWork.RepositoryCartItem.GetById(request.idCartItem);
-        if (item is null) return false;
-        if (item.UserId != request.userId) return false;
-
+        if (item is null || item.UserId != request.userId) return false;
+          
         await UnitOfWork.RepositoryCartItem.Delete(item);
         return true;
     }

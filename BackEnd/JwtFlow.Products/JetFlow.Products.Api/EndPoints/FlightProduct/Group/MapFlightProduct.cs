@@ -1,8 +1,5 @@
-
-using JetFlow.Products.Api.EndPoints.FlightProduct.EndPoint.AddUser;
 using JetFlow.Products.Api.EndPoints.FlightProduct.EndPoint.Create;
 using JetFlow.Products.Api.EndPoints.FlightProduct.EndPoint.GetAll;
-using JetFlow.Products.Api.EndPoints.FlightProduct.EndPoint.GetByUser;
 
 namespace JetFlow.Products.Api.EndPoints.FlightProduct.Group;
 
@@ -13,9 +10,7 @@ public static class MapFlightProduct
         var group = app.MapGroup("Flight")
             .WithTags("Flight")
             .AddMap<MapGetAll>()
-            .AddMap<MapPost>()
-            .AddMap<MapGetByUser>()
-            .AddMap<MapPostAddUser>();
+            .AddMap<MapPost>();
     }
 
     public static RouteGroupBuilder AddMap<T>(this RouteGroupBuilder group) where T : IEndPoint

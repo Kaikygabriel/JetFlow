@@ -20,12 +20,6 @@ public class FlightsRepository : IRepositoryProductFlight
         return await context.Flights.AsNoTracking().Skip(skip).Take(take).ToListAsync();
     }
 
-    public async Task<IEnumerable<ProductFlight>?> GetAllByUserAsync(string userId)
-    {
-        return await context.Flights.AsNoTrackingWithIdentityResolution().
-            Where(x=>x.UsersId.Contains(userId)).ToListAsync();
-    }
-
     public async Task<ProductFlight?> GetByPredicate(Expression<Func<ProductFlight, bool>> predicate)
     {
         return await context.Flights.AsNoTracking().FirstOrDefaultAsync(predicate);

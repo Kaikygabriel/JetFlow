@@ -5,7 +5,6 @@ namespace JwtFlow.Domain.BackOffice.Interface.ProductFlight;
 public interface IRepositoryProductFlight
 {
     Task<IEnumerable<Entities.ProductFlight>> GetAllAsync(int skip,int take);
-    Task<IEnumerable<Entities.ProductFlight>> GetAllByUserAsync(string userId);
     Task<Entities.ProductFlight?> GetByPredicate(Expression<Func<Entities.ProductFlight, bool>> predicate);
     void Create(Entities.ProductFlight entity);
     void Update(Entities.ProductFlight entity);

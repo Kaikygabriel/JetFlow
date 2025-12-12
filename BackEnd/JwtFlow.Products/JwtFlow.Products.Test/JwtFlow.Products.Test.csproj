@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\JwtFlow.Domain\JwtFlow.Domain.csproj" />
+    <ProjectReference Include="..\JetFlow.Products.Api\JetFlow.Products.Api.csproj" />
   </ItemGroup>
 
   <ItemGroup>

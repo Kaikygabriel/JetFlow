@@ -22,14 +22,6 @@ public class ProductFlight : Entity
     public FlightDate FlightDate  { get; set; }
     public FlightCity FlightCity  { get; set; }
     public decimal Price { get; set; }
-
-    public List<string> UsersId { get; private set; } = new();
-
-    public void SetUsersId(string user)
-        => UsersId.Add(user);
-
-    public IEnumerable<string> GetUsersId()
-        => UsersId; 
     
     private void IsValid(decimal price,string name)
     {
