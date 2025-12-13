@@ -21,43 +21,48 @@ public class ServiceAuth : IServiceAuth
     public async Task<string?> Login(LoginDto model)
     {
         var client = _clientFactory.CreateClient(NAME_CLIENT);
-        var content = new StringContent
-            (JsonSerializer.Serialize(model), Encoding.UTF8,"application/json");
+        var content = GenerateStringContentOfModel(model);
         using var resultOfRequest = await client.PostAsync("Auth/Login", content);
         if (!resultOfRequest.IsSuccessStatusCode) return null;
 
-        var resultContent = await resultOfRequest.Content.ReadAsStreamAsync();
-        var code = JsonSerializer.Deserialize<string>(resultContent);
-        
+        var code = await ReturnCodeOfRequestOrNull(resultOfRequest);
+
         return await GetJwtFromAuthorizationCode(code!);
     }
 
     public async Task<string?> Register(RegisterDto model)
     {
         var client = _clientFactory.CreateClient(NAME_CLIENT);
-        var content = new StringContent
-            (JsonSerializer.Serialize(model), Encoding.UTF8, "application/json");
+        var content = GenerateStringContentOfModel(model);
+        
         using var resultOfRequest = await client.PostAsync("Auth/Cadastro", content);
         if (!resultOfRequest.IsSuccessStatusCode) return null;
 
-        var resultContent = await resultOfRequest.Content.ReadAsStreamAsync();
-        var code = JsonSerializer.Deserialize<string>(resultContent);
-
+        var code = await ReturnCodeOfRequestOrNull(resultOfRequest);
+        
         return await GetJwtFromAuthorizationCode(code!);
     }
 
     private async Task<string?> GetJwtFromAuthorizationCode(string code)
     {
-       
         var client = _clientFactory.CreateClient();
-        var content = new StringContent
-            (JsonSerializer.Serialize(code), Encoding.UTF8,"application/json");
+        var content = GenerateStringContentOfModel(code);
+
         using var resultOfRequest = 
             await client.PostAsync("Auth/GetTokenOfAuthorizationCode", content);
         if (!resultOfRequest.IsSuccessStatusCode) return null;
 
-        var resultContent = await resultOfRequest.Content.ReadAsStreamAsync();
-        var jwt = JsonSerializer.Deserialize<string>(resultContent);
+        var jwt = await ReturnCodeOfRequestOrNull(resultOfRequest);
+
         return jwt;
     }
+
+    private async Task<string?> ReturnCodeOfRequestOrNull(HttpResponseMessage response)
+    {
+        var resultContent = await response.Content.ReadAsStreamAsync();
+        return JsonSerializer.Deserialize<string>(resultContent);
+    }
+    
+    private StringContent GenerateStringContentOfModel<T>(T model)
+        =>new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8,"application/json");
 }
