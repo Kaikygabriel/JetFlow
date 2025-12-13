@@ -1,4 +1,5 @@
 using JwtFlow.Domain.BackOffice.Entities;
+using JwtFlow.Infra.Data.Mappings;
 using Microsoft.EntityFrameworkCore;
 
 namespace JwtFlow.Infra.Data.Context;
