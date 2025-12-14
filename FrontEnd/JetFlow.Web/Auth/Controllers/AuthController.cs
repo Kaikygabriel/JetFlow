@@ -13,13 +13,15 @@ public class AuthController : Controller
         _serviceAuth = serviceAuth;
     }
 
-    [HttpGet]
+    [HttpGet("Login")]
     public IActionResult Login()
     {
+        if (IsConnected())
+            return RedirectToAction("Index", "Home");
         return View();
     }
 
-    [HttpPost]
+    [HttpPost("Login")]
     public async Task<IActionResult> Login(LoginDto model)
     {
         var token = await _serviceAuth.Login(model);
@@ -34,12 +36,24 @@ public class AuthController : Controller
     {
         try
         {
-            Request.Cookies.Append(new ("token-x",token));
+            Response.Cookies.Append("token-x",token, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,          
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTimeOffset.UtcNow.AddDays(3)
+            });
             return true;
         }
         catch (Exception e)
         {
             return false;
         }
+    }
+
+    private bool IsConnected()
+    {
+        Request.Cookies.TryGetValue("token-x",out var token);
+        return token is not null ? true : false;
     }
 }

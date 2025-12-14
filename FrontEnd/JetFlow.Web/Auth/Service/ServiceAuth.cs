@@ -45,7 +45,7 @@ public class ServiceAuth : IServiceAuth
 
     private async Task<string?> GetJwtFromAuthorizationCode(string code)
     {
-        var client = _clientFactory.CreateClient();
+        var client = _clientFactory.CreateClient(NAME_CLIENT);
         var content = GenerateStringContentOfModel(code);
 
         using var resultOfRequest = 
@@ -58,10 +58,8 @@ public class ServiceAuth : IServiceAuth
     }
 
     private async Task<string?> ReturnCodeOfRequestOrNull(HttpResponseMessage response)
-    {
-        var resultContent = await response.Content.ReadAsStreamAsync();
-        return JsonSerializer.Deserialize<string>(resultContent);
-    }
+        => await response.Content.ReadAsStringAsync();
+    
     
     private StringContent GenerateStringContentOfModel<T>(T model)
         =>new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8,"application/json");
