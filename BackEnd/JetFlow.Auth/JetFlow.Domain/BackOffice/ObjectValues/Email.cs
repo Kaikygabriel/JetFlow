@@ -5,13 +5,17 @@ namespace JetFlow.Domain.BackOffice.ObjectValues;
 
 public struct Email
 {
+    public Email()
+    {
+        
+    }
     public Email(string address)
     {
         if (!IsValidAddress(address))
             throw new EmailException("Invalid address format");
         Address = address;
     }
-    public string Address { get; private set; }
+    public string Address { get;private set; }
 
     public bool IsValidAddress(string address)
     {

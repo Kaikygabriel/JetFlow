@@ -1,5 +1,7 @@
 using JetFlow.Auth.Api.Extensions;
 using JetFlow.Infra.Data.Context;
+using JetFlow.Infra.DataDapper;
+using JetFlow.Infra.DataDapper.Interface;
 using JetFlow.Infra.UseCases;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +13,8 @@ builder.Services.AddDbContext<AppDbContext>(x =>
 builder.Services.AddControllersWithViews();
 builder.Services.AddDependencyInjection();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<IDbContextDapper, DbContextDapper>();
 
 var app = builder.Build();
 

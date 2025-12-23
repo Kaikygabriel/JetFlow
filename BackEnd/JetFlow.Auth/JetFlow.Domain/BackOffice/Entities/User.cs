@@ -5,7 +5,7 @@ namespace JetFlow.Domain.BackOffice.Entities;
 
 public class User : Entity
 {
-    protected User()
+    public User()
     {
         
     }
@@ -18,13 +18,16 @@ public class User : Entity
         Password = password;
     }
 
-    public string Name { get;private set; }
-    public Email Email { get;private set; }
-    public string Password { get;private set; }
-    public List<string> Roles { get; private set; } = new();
+    public string Name { get;set; }
+    public Email Email { get; set; }
+    public string Password { get; set; }
+    public List<string> Roles { get; set; } = new(){ "Student"};
     
     public void AddRole(string role)
      => Roles.Add(role);
+    
+    public void AddRoles(params IEnumerable<string> roles)
+        => Roles.AddRange(roles);
 
     public void UpdatePassword(string password)
     {

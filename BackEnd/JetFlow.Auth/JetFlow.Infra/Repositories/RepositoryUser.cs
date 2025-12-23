@@ -1,7 +1,10 @@
+using Dapper;
 using JetFlow.Domain.BackOffice.Entities;
 using JetFlow.Domain.BackOffice.Interfaces;
 using JetFlow.Domain.BackOffice.ObjectValues;
 using JetFlow.Infra.Data.Context;
+using JetFlow.Infra.DataDapper;
+using JetFlow.Infra.DataDapper.Interface;
 using Microsoft.EntityFrameworkCore;
 
 namespace JetFlow.Infra.Repositories;
@@ -9,21 +12,31 @@ namespace JetFlow.Infra.Repositories;
 public class RepositoryUser : IRepositoryUser
 {
     private readonly AppDbContext _context;
+    private readonly IDbContextDapper _contextDapper;
 
-    public RepositoryUser(AppDbContext context)
+    public RepositoryUser(AppDbContext appDbContext,IDbContextDapper contextDapper )
     {
-        _context = context;
+        _contextDapper = contextDapper;
+        _context = appDbContext;
     }
 
 
     public async Task<User?> GetUserByEmail(string addressEmail)
     {
-        var email = new Email(addressEmail);
-        return await _context.Users.AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Email.Equals(email));
+        using var connection = _contextDapper.Create();
+        var queryUser = @"SELECT [Id],[Name],[Password],[Email] FROM [Users] WHERE [Email] = @addressEmail";
+            
+        var user = await connection.QueryAsync<User,string,User>(queryUser,
+            (user, email) =>
+            {
+                user.Email = new Email(email);
+                return user;
+            },new {addressEmail},splitOn:"Email");
+        
+        return user.FirstOrDefault();
     }
 
-    public void Create(User user)
+    public void Create(User user) 
     {
         if (user is null)
             throw new ArgumentNullException(nameof(user));
